@@ -7,7 +7,7 @@ jobs:
     runs-on: ubuntu-latest
     name: Nix checks
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: cachix/install-nix-action@v31
     - uses: cachix/cachix-action@v16
       with:
@@ -28,7 +28,7 @@ jobs:
           - .#busted-nlua
           - .#devShells.x86_64-linux.default
     steps:
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - uses: cachix/install-nix-action@v31
     - uses: cachix/cachix-action@v16
       with:
@@ -41,7 +41,7 @@ jobs:
   #   name: Integration test
   #   steps:
   #     - name: Checkout
-  #       uses: actions/checkout@v5
+  #       uses: actions/checkout@v6
   #     - uses: cachix/install-nix-action@v31
   #     - uses: cachix/cachix-action@v16
   #       with:
