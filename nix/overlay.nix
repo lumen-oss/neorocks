@@ -1,7 +1,7 @@
 {neovim-input}: final: prev:
 with prev.haskell.lib;
 with prev.lib; let
-  neovim-nightly = neovim-input.packages.${prev.system}.neovim;
+  neovim-nightly = neovim-input.packages.${prev.stdenv.hostPlatform.system}.neovim;
 
   busted-nlua = final.lua5_1.pkgs.busted.overrideAttrs (oa: {
     propagatedBuildInputs =
