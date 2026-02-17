@@ -64,7 +64,6 @@
               ];
             };
             editorconfig-checker.enable = true;
-            markdownlint.enable = true;
             fourmolu.enable = true;
             hpack.enable = true;
             hlint.enable = true;
