@@ -3,27 +3,13 @@ with prev.haskell.lib;
 with prev.lib; let
   neovim-nightly = neovim-input.packages.${prev.stdenv.hostPlatform.system}.neovim;
 
-  busted-nlua = final.lua5_1.pkgs.busted.overrideAttrs (oa: {
-    propagatedBuildInputs =
-      oa.propagatedBuildInputs
-      ++ [
-        final.lua5_1.pkgs.nlua
-      ];
-    nativeBuildInputs =
-      oa.nativeBuildInputs
-      ++ [
-        final.makeWrapper
-      ];
-    postInstall =
-      oa.postInstall
-      +
-      /*
-      bash
-      */
-      ''
-        wrapProgram $out/bin/busted --add-flags "--lua=nlua"
-      '';
-  });
+  busted-nlua = final.writeShellApplication {
+    name = "busted";
+    runtimeInputs = [(final.lua5_1.withPackages (ps: with ps; [busted nlua]))];
+    text = ''
+      busted --lua=nlua "$@"
+    '';
+  };
 
   neorocksTest = {
     src,
