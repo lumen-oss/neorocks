@@ -3,11 +3,11 @@ with prev.haskell.lib;
 with prev.lib; let
   neovim-nightly = neovim-input.packages.${prev.stdenv.hostPlatform.system}.neovim;
 
-  busted-nlua = final.lua5_1.pkgs.busted.overrideAttrs (oa: {
+  busted-nlua = final.luajit.pkgs.busted.overrideAttrs (oa: {
     propagatedBuildInputs =
       oa.propagatedBuildInputs
       ++ [
-        final.lua5_1.pkgs.nlua
+        final.luajit.pkgs.nlua
       ];
     nativeBuildInputs =
       oa.nativeBuildInputs
@@ -45,8 +45,8 @@ with prev.lib; let
       "luaPackages"
       "extraPackages"
     ];
-    lua5_1 = prev.lua5_1;
-  in (lua5_1.pkgs.buildLuarocksPackage (rest
+    inherit (prev) luajit;
+  in (luajit.pkgs.buildLuarocksPackage (rest
     // {
       inherit
         src
@@ -58,15 +58,15 @@ with prev.lib; let
         then ""
         else "${name}-";
       propagatedBuildInputs =
-        luaPackages lua5_1.pkgs
-        ++ (with lua5_1.pkgs; [
+        luaPackages luajit.pkgs
+        ++ (with luajit.pkgs; [
           busted-nlua
           nlua
         ]);
       doCheck = true;
       nativeCheckInputs =
         extraPackages
-        ++ (with lua5_1.pkgs; [
+        ++ (with luajit.pkgs; [
           nlua
           busted
           neovim
